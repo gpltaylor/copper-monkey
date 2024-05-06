@@ -1,0 +1,6 @@
+# Ensure lined ending are left as is
+
+text eol=crlf
+lua eol=lf
+go  eol=lf
+
