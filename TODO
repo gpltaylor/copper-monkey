@@ -1,0 +1,7 @@
+# Payment Gateway
+
+- Add commands to Green using Cobra
+- Add and validate args
+- Create REST API endpoint to access Pkg
+
+
