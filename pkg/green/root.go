@@ -9,6 +9,7 @@ type AddClientPaymentRequestData struct {
 	Action        string
 	DateRequested string
 	Amount        string
+	CustomerId    string
 }
 
 func HelloWorld() {

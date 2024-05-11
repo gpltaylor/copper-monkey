@@ -5,3 +5,6 @@ install-cobra:
 
 build-green:
 	go build -o bin/copper-monkey-green.exe cmd/green/main.go
+
+run-green-tests:
+	go test ./cmd/green/cmd/green_test.go
