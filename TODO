@@ -1,13 +1,6 @@
 # Payment Gateway
 
-- Review and fix why unit tests are not running when using `go test ./...`
-- Move NewRootCommand into the PKG folder and place under the "green" package
-- Build on the unit test
-- Create the Structs and contracts / commands and build a test platform
-- Think about a DSL Testing platform
 
-
-- Add commands to Green using Cobra
 - Add and validate args
-- Create REST API endpoint to access Pkg
+- Start working on the DATA repository
 
