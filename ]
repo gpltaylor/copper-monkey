@@ -7,14 +7,11 @@ import (
 
 type AddClientPaymentRequestData struct {
 	RequestId     string
-	CustomerId    string
 	Action        string
-	Status        string // Pending, Cancelled, Processed
-	Amount        float32
-	FirstName     string
-	Surname       string
-	Email         string
 	DateRequested string
+	Amount        string
+	CustomerId    string
+	Status        string // Pending, Cancelled, Processed
 }
 
 var (
@@ -30,18 +27,12 @@ func NewCmdSubAddClientPaymentRequest() *cobra.Command {
 		Aliases: []string{"acpr"},
 		//		Args:    cobra.ExactArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Printf("Adding client payment request:")
-			fmt.Print(data)
-
-			// Save to database
+			fmt.Println("Adding client payment request:" + data.Amount)
 		},
 	}
 
 	cmd.Flags().StringVarP(&data.CustomerId, "customerId", "s", "nil", "The customer id")
-	cmd.Flags().Float32VarP(&data.Amount, "Amount", "e", 0, "End Index")
-	cmd.Flags().StringVar(&data.FirstName, "FirstName", "nil", "Customers first name")
-	cmd.Flags().StringVar(&data.Surname, "Surname", "nil", "Customers surname")
-	cmd.Flags().StringVar(&data.Email, "Email", "nil", "Customers email")
+	cmd.Flags().StringVarP(&data.Amount, "amount", "e", "0", "End Index")
 	return cmd
 }
 
@@ -50,5 +41,5 @@ func HelloWorld() {
 }
 
 func AddClientPaymentRequest(data AddClientPaymentRequestData) {
-	fmt.Printf("Adding client payment request: %f", data.Amount)
+	fmt.Println("Adding client payment request:" + data.Amount)
 }
