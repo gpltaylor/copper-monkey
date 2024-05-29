@@ -2,6 +2,7 @@ package green
 
 import (
 	"fmt"
+	"github.com/gpltaylor/copper-monkey/pkg/repository"
 	"github.com/spf13/cobra"
 )
 
@@ -34,6 +35,12 @@ func NewCmdSubAddClientPaymentRequest() *cobra.Command {
 			fmt.Print(data)
 
 			// Save to database
+			msg, err := repository.AddPendingPaymentRequest()
+			if err != nil {
+				fmt.Println("Error inserting payment")
+				panic(err)
+			}
+			fmt.Println(msg)
 		},
 	}
 

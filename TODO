@@ -4,3 +4,5 @@
 - Add and validate args (working on)
 - Start working on the DATA repository (working on)
 
+update the TDO to we can save the correct model to the database
+then lets write up some unit tests and get the ball rolling
