@@ -2,7 +2,24 @@
 
 - Improved the argument  (working on)
 - Add and validate args (working on)
-- Start working on the DATA repository (working on)
+- Start working on the DATA repository (done)
 
-update the TDO to we can save the correct model to the database
+update the TDO to we can save the correct model to the database  (done)
 then lets write up some unit tests and get the ball rolling
+Create a factory new func for the payment request
+
+
+# Questions
+Should we have separate types for CMD and repos DTOs?
+
+We may wish to simplify the commands and abstract some complexity away from the user.
+This will form the API RPC fields.
+
+However, this means we need to map the CMD DTOs to the Repo DTOs.
+This makes Naming conventions tricky. We need to be able to understand if we are working
+with the  CMD or the Repos?
+
+Maybe Repos DTOs should only be used within the Repos package?
+But should we be sending CMD to the repos?
+
+
