@@ -1,5 +1,20 @@
 package repository
 
+import (
+	"github.com/google/uuid"
+)
+
+type AddClientPaymentRequestData struct {
+	RequestId     string
+	CustomerId    string
+	Action        string
+	Status        string // Pending, Cancelled, Processed
+	Amount        float32
+	FirstName     string
+	Surname       string
+	Email         string
+	DateRequested string
+}
 
 type ClientPaymentRequest struct {
 	RequestId     string  `dynamodbav:"RequestId"`
@@ -13,9 +28,16 @@ type ClientPaymentRequest struct {
 	DateRequested string  `dynamodbav:"DateRequested"`
 }
 
-// TODO: setup request id and date requested , status and action
-func NewClientPaymentRequest() (ClientPaymentRequest, error) {
+// Write some test around this logic
+func NewClientPaymentRequest(data AddClientPaymentRequestData) ClientPaymentRequest {
 	return ClientPaymentRequest{
-
-	} , nil
+		RequestId:  uuid.New().String(),
+		Status:     "Pending",
+		Action:     "AddClientPaymentRequest",
+		CustomerId: data.CustomerId,
+		Amount:     data.Amount,
+		FirstName:  data.FirstName,
+		Surname:    data.Surname,
+		Email:      data.Email,
+	}
 }

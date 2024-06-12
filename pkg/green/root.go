@@ -4,23 +4,10 @@ import (
 	"fmt"
 	"github.com/gpltaylor/copper-monkey/pkg/repository"
 	"github.com/spf13/cobra"
-	"github.com/google/uuid"
 )
 
-type AddClientPaymentRequestData struct {
-	RequestId     string
-	CustomerId    string
-	Action        string
-	Status        string // Pending, Cancelled, Processed
-	Amount        float32
-	FirstName     string
-	Surname       string
-	Email         string
-	DateRequested string
-}
-
 var (
-	data AddClientPaymentRequestData
+	data repository.AddClientPaymentRequestData
 )
 
 func NewCmdSubAddClientPaymentRequest() *cobra.Command {
@@ -35,16 +22,8 @@ func NewCmdSubAddClientPaymentRequest() *cobra.Command {
 			fmt.Printf("Adding client payment request:")
 			fmt.Print(data)
 
-			clientPaymentRequest := repository.ClientPaymentRequest{
-				RequestId:     uuid.New().String(),
-				CustomerId:    data.CustomerId,
-				Amount: 			data.Amount,
-				FirstName:     data.FirstName,
-				Surname:       data.Surname,
-				Email:         data.Email,
-				Status:        "Pending",
-				Action:        "AddClientPaymentRequest",
-			}
+			clientPaymentRequest := repository.NewClientPaymentRequest(data)
+
 			// Save to database
 			msg, err := repository.AddPendingPaymentRequest(clientPaymentRequest)
 			if err != nil {
@@ -67,6 +46,6 @@ func HelloWorld() {
 	fmt.Println("Hello, World!")
 }
 
-func AddClientPaymentRequest(data AddClientPaymentRequestData) {
+func AddClientPaymentRequest(data repository.AddClientPaymentRequestData) {
 	fmt.Printf("Adding client payment request: %f", data.Amount)
 }
