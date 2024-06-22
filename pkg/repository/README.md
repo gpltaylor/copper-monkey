@@ -57,6 +57,13 @@ then query the data
 aws dynamodb scan --table-name PendingClientPayments
 ```
 
+then delete the table
+
+```
+aws dynamodb delete-table --table-name PendingClientPaymentsV1
+```
+
+
 ## Go Code
 
 ```go

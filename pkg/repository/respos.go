@@ -103,13 +103,22 @@ func InitDatabase() {
 		BillingMode: types.BillingModePayPerRequest,
 	}
 
-	_, err = svc.CreateTable(ctx, input)
+	// Check if the table exists
+	exists, err := CheckTableExists(svc, &ctx, tableName)
 	if err != nil {
-		fmt.Println("Got error calling CreateTable:")
-		fmt.Println(err)
-		return
+		fmt.Println("Error checking if table exists")
+		panic(err)
 	}
 
+	if !exists {
+		fmt.Println("Table does not exist, creating table")
+		_, err = svc.CreateTable(ctx, input)
+		if err != nil {
+			fmt.Println("Got error calling CreateTable:")
+			fmt.Println(err)
+			return
+		}
+	}
 }
 
 func CheckTableExists(svc *dynamodb.Client, ctx *context.Context, tableName string) (bool, error) {

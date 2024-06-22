@@ -2,7 +2,7 @@ module github.com/gpltaylor/copper-monkey
 
 go 1.19
 
-require github.com/spf13/cobra v1.8.0
+require github.com/spf13/cobra v1.8.1
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.27.0 // indirect
