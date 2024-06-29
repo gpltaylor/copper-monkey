@@ -5,8 +5,16 @@
 - Start working on the DATA repository (done)
 
 update the TDO to we can save the correct model to the database  (done)
-then lets write up some unit tests and get the ball rolling
+* then lets write up some unit tests and get the ball rolling
 Create a factory new func for the payment request
+
+Within the Unit Tests we need to use the following to setup the payment
+
+```
+clientPaymentRequest := repository.NewClientPaymentRequest(data)
+```
+
+
 
 
 # Questions

@@ -16,6 +16,10 @@ var (
 	tableName = "PendingClientPaymentsV1"
 )
 
+func SetTableName(name string) {
+	tableName = name
+}
+
 func AddPendingPaymentRequest(paymentRequest ClientPaymentRequest) (string, error) {
 	InitDatabase()
 
@@ -39,10 +43,10 @@ func AddPendingPaymentRequest(paymentRequest ClientPaymentRequest) (string, erro
 	err = InsertPendingClientPayment(svc, ctx, newPayment)
 	if err != nil {
 		fmt.Println("Error inserting payment")
-		panic(err)
+		return "", err
 	}
 
-	return "New Client Pending Payment Request make", err
+	return "New Client Pending Payment Request made", err
 }
 
 func InsertPendingClientPayment(svc *dynamodb.Client, ctx context.Context, payment ClientPaymentRequest) error {
@@ -136,4 +140,32 @@ func CheckTableExists(svc *dynamodb.Client, ctx *context.Context, tableName stri
 		return false, err // Other error occurred
 	}
 	return true, nil // Table CheckTableExists()
+}
+
+func GetPaymentRequestByRequestId( requestId string) (ClientPaymentRequest, error) {
+	// Get the payment request by the request id
+
+	ctx := context.TODO()
+	cfg, err := GetConfig(ctx)
+
+	svc := dynamodb.NewFromConfig(cfg)
+
+	input := &dynamodb.GetItemInput{
+		Key: map[string]types.AttributeValue{
+			"RequestId": &types.AttributeValueMemberS{Value: requestId},
+		},
+		TableName: aws.String(tableName),
+	}
+
+	result, err := svc.GetItem(ctx, input)
+
+	if err != nil {
+		return ClientPaymentRequest{}, err
+	}
+
+	item := ClientPaymentRequest{}
+	err = attributevalue.UnmarshalMap(result.Item, &item)
+
+	return item, nil
+
 }
