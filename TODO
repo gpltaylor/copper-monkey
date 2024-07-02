@@ -8,17 +8,21 @@ update the TDO to we can save the correct model to the database  (done)
 * then lets write up some unit tests and get the ball rolling
 Create a factory new func for the payment request
 
-Within the Unit Tests we need to use the following to setup the payment
+(DONE) Within the Unit Tests we need to use the following to setup the payment
 
 ```
 clientPaymentRequest := repository.NewClientPaymentRequest(data)
 ```
 
+test validation within the CMD/cobra and the Repos.
+Think about a way to return validation data (extend the error interface)
 
+Move Unit Test to their own package and fix and references
 
 
 # Questions
 Should we have separate types for CMD and repos DTOs?
+Yes - this allow untrusted data to be ETLs into the system and then validated before sending to the repos.
 
 We may wish to simplify the commands and abstract some complexity away from the user.
 This will form the API RPC fields.

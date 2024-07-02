@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/google/uuid"
 )
 
 func TestSetupDatabase(t *testing.T) {
@@ -34,22 +35,17 @@ func TestInsertPendingClientPayment(t *testing.T) {
 	t.Logf("Table name: " + tableName)
 	SetTableName(tableName)
 
-
-	newPayment := ClientPaymentRequest{
-		RequestId:     "123",
-		CustomerId:    "123",
-		Action:        "AddClientPaymentRequest",
-		Status:        "Pending",
-		Amount:        100.00,
-		FirstName:     "John",
-		Surname:       "Doe",
-		Email:         "john@gmail.com",
+	data := AddClientPaymentRequestData{
+		CustomerId: "123",
+		FirstName:  "John",
+		Surname:    "Doe",
+		Email:      "john@gmail.com",
+		Amount:     19.99,
 	}
 
-	//	clientPaymentRequest := repository.NewClientPaymentRequest(data)
-	// TODO : Using NewClientPaymentRequest
+	clientPaymentRequest := NewClientPaymentRequest(data)
 
-  msg, err := AddPendingPaymentRequest(newPayment)
+	msg, err := AddPendingPaymentRequest(clientPaymentRequest)
 
 	if err != nil {
 		t.Errorf("Error inserting payment: " + err.Error())
@@ -57,12 +53,29 @@ func TestInsertPendingClientPayment(t *testing.T) {
 		t.Logf("Payment inserted: " + msg)
 	}
 
-	result, err := GetPaymentRequestByRequestId("123")
+	result, err := GetPaymentRequestByRequestId(clientPaymentRequest.RequestId)
 	if err != nil {
 		t.Errorf("Error getting payment request: " + err.Error())
 	} else {
 		// TODO : check the values are the same
 		t.Logf("Payment request: " + result.FirstName)
 	}
+
+	// check that the request id has a valid GUID
+	if _, err := uuid.Parse(result.RequestId); err != nil {
+		t.Errorf("Payment request id is not a valid GUID: " + result.RequestId)
+	}
+
+	// Check that the new request has a pending status
+	if result.Status != "Pending" {
+		t.Errorf("Payment request status is not pending: " + result.Status)
+	}
+
+	// Check that the Action is set to AddClientPaymentRequest
+	if result.Action != "AddClientPaymentRequest" {
+		t.Errorf("Payment request action is not AddClientPaymentRequest: " + result.Action)
+	}
+
+	// TODO: Write a test to see what happens when you get a payment request that does not exist
 
 }

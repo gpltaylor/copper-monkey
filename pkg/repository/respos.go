@@ -28,19 +28,9 @@ func AddPendingPaymentRequest(paymentRequest ClientPaymentRequest) (string, erro
 
 	svc := dynamodb.NewFromConfig(cfg)
 
-	newPayment := ClientPaymentRequest{
-		FirstName:     paymentRequest.FirstName,
-		Surname:       paymentRequest.Surname,
-		Email:         paymentRequest.Email,
-		Amount:        paymentRequest.Amount,
-		CustomerId:    paymentRequest.CustomerId,
-		Action:        paymentRequest.Action,
-		Status:        paymentRequest.Status,
-		RequestId:     paymentRequest.RequestId,
-		DateRequested: time.Now().Format(time.RFC3339), // move this to config
-	}
+	paymentRequest.DateRequested = time.Now().Format(time.RFC3339)
 
-	err = InsertPendingClientPayment(svc, ctx, newPayment)
+	err = insertPendingClientPayment(svc, ctx, paymentRequest)
 	if err != nil {
 		fmt.Println("Error inserting payment")
 		return "", err
@@ -49,7 +39,7 @@ func AddPendingPaymentRequest(paymentRequest ClientPaymentRequest) (string, erro
 	return "New Client Pending Payment Request made", err
 }
 
-func InsertPendingClientPayment(svc *dynamodb.Client, ctx context.Context, payment ClientPaymentRequest) error {
+func insertPendingClientPayment(svc *dynamodb.Client, ctx context.Context, payment ClientPaymentRequest) error {
 
 	// What does this look like? what type of errors get thrown?
 	item, err := attributevalue.MarshalMap(payment)

@@ -4,6 +4,10 @@ import (
 	"github.com/google/uuid"
 )
 
+/**
+ * DTO to store non-trusted data inputs, used as the input for the API/CLI command
+ * This DTO is then ETL'd into a trusted data object
+ */
 type AddClientPaymentRequestData struct {
 	RequestId     string
 	CustomerId    string
