@@ -20,7 +20,7 @@ func SetTableName(name string) {
 	tableName = name
 }
 
-func AddPendingPaymentRequest(paymentRequest ClientPaymentRequest) (string, error) {
+func AddPendingPaymentRequest(paymentRequest ClientPaymentRequest) (ClientPaymentRequest, error) {
 	InitDatabase()
 
 	ctx := context.TODO()
@@ -33,10 +33,11 @@ func AddPendingPaymentRequest(paymentRequest ClientPaymentRequest) (string, erro
 	err = insertPendingClientPayment(svc, ctx, paymentRequest)
 	if err != nil {
 		fmt.Println("Error inserting payment")
-		return "", err
+		// TODO: Review returning nil type or a default empty object
+		return ClientPaymentRequest{}, err
 	}
 
-	return "New Client Pending Payment Request made", err
+	return paymentRequest, nil
 }
 
 func insertPendingClientPayment(svc *dynamodb.Client, ctx context.Context, payment ClientPaymentRequest) error {

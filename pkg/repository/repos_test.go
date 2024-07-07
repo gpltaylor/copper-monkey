@@ -45,12 +45,11 @@ func TestInsertPendingClientPayment(t *testing.T) {
 
 	clientPaymentRequest := NewClientPaymentRequest(data)
 
-	msg, err := AddPendingPaymentRequest(clientPaymentRequest)
-
+	ClientPaymentRequestentPaymentRequest, err := AddPendingPaymentRequest(clientPaymentRequest)
 	if err != nil {
 		t.Errorf("Error inserting payment: " + err.Error())
 	} else {
-		t.Logf("Payment inserted: " + msg)
+		t.Logf("Payment inserted: " + ClientPaymentRequestentPaymentRequest.RequestId)
 	}
 
 	result, err := GetPaymentRequestByRequestId(clientPaymentRequest.RequestId)

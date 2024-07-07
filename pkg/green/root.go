@@ -25,16 +25,16 @@ func NewCmdSubAddClientPaymentRequest() *cobra.Command {
 			clientPaymentRequest := repository.NewClientPaymentRequest(data)
 
 			// Save to database
-			msg, err := repository.AddPendingPaymentRequest(clientPaymentRequest)
+			clientPaymentRequest, err := repository.AddPendingPaymentRequest(clientPaymentRequest)
 			if err != nil {
 				fmt.Println("Error inserting payment")
 				panic(err)
 			}
-			fmt.Println(msg)
+			fmt.Println(clientPaymentRequest)
 		},
 	}
 
-	cmd.Flags().StringVarP(&data.CustomerId, "customerId", "s", "nil", "The customer id")
+	cmd.Flags().StringVarP(&data.CustomerId, "CustomerID", "s", "nil", "The customer id")
 	cmd.Flags().Float32VarP(&data.Amount, "Amount", "e", 0, "End Index")
 	cmd.Flags().StringVar(&data.FirstName, "FirstName", "nil", "Customers first name")
 	cmd.Flags().StringVar(&data.Surname, "Surname", "nil", "Customers surname")
