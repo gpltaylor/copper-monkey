@@ -36,6 +36,7 @@ func init() {
 	fmt.Println("Init NewRootCmd")
 	rootCmd.AddCommand(substr.NewCmdSubstr())
 	rootCmd.AddCommand(green.NewCmdSubAddClientPaymentRequest())
+	rootCmd.AddCommand(green.NewCmdSubGetClientPaymentRequest())
 
 }
 

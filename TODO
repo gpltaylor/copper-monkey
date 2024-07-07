@@ -19,16 +19,18 @@ Think about a way to return validation data (extend the error interface)
 
 Move Unit Test to their own package and fix and references
 
-# Repos  - Change return object
+# Repos  - Change return object - DONE
 return the object created instead of a string. Allowing the UI to get the RequestID
 
-# read an item using CLI
+# read an item using CLI - DONE
 Allow the cli to read an item from the database
 
-# Deleye an item using CLI
-Allow the cli to delete an item from the database
+# Cancel an item using CLI
+Allow the cli to cancel an item from the database - concurency issue?
 This should be a logical delete
 
+# Local / business Directory
+Using a directory to allow key terms to be renamed - AKA 'RequestID' to 'CPR ID'
 
 # Questions
 Should we have separate types for CMD and repos DTOs?
