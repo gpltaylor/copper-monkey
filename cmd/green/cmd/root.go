@@ -37,7 +37,9 @@ func init() {
 	rootCmd.AddCommand(substr.NewCmdSubstr())
 	rootCmd.AddCommand(green.NewCmdSubAddClientPaymentRequest())
 	rootCmd.AddCommand(green.NewCmdSubGetClientPaymentRequest())
-
+	rootCmd.AddCommand(green.NewCmdSubDeleteClientPaymentRequest())
 }
+
+
 
 // copper-monkey-green AddClientPaymentRequest --amount 12.99 --customerId {GUID}

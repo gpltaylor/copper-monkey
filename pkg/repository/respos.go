@@ -160,3 +160,32 @@ func GetPaymentRequestByRequestId( requestId string) (ClientPaymentRequest, erro
 	return item, nil
 
 }
+
+func DeletePendingPaymentRequest(requestId string) error {
+	ctx := context.TODO()
+	cfg, err := GetConfig(ctx)
+
+	svc := dynamodb.NewFromConfig(cfg)
+
+		// Logically delete the payment request by setting the status to "Deleted"
+	input := &dynamodb.UpdateItemInput{
+		TableName: aws.String(tableName),
+		Key: map[string]types.AttributeValue{
+			"RequestId": &types.AttributeValueMemberS{Value: requestId},
+		},
+		ExpressionAttributeValues: map[string]types.AttributeValue{
+			":s": &types.AttributeValueMemberS{Value: "Deleted"},
+		},
+		ExpressionAttributeNames: map[string]string{
+			"#S": "Status",
+		},
+		UpdateExpression: aws.String("SET #S = :s"),
+	}
+_, err = svc.UpdateItem(ctx, input)
+	if err != nil {
+		return err
+	}
+
+
+	return nil
+}

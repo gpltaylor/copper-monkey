@@ -78,3 +78,59 @@ func TestInsertPendingClientPayment(t *testing.T) {
 	// TODO: Write a test to see what happens when you get a payment request that does not exist
 
 }
+
+func TestDeletePendingClientPayment(t *testing.T) {
+	tableName := "PendingClientPayments-" + strconv.Itoa(rand.Intn(1000))
+	t.Logf("Table name: " + tableName)
+
+	SetTableName(tableName)
+
+	data := AddClientPaymentRequestData{
+		CustomerId: "123",
+		FirstName:  "John",
+		Surname:    "Doe",
+		Email:      "gpltaylor01@gmail.com",
+		Amount:     29.99,
+	}
+
+	clientPaymentRequest := NewClientPaymentRequest(data)
+	clientPaymentResponse, err := AddPendingPaymentRequest(clientPaymentRequest)
+
+	if err != nil {
+		t.Errorf("Error inserting payment: " + err.Error())
+	}
+
+	clientPayment, err := GetPaymentRequestByRequestId(clientPaymentResponse.RequestId)
+	if err != nil {
+		t.Errorf("Error getting payment request: " + err.Error())
+	}
+
+	if clientPayment.Status != "Pending" {
+		t.Errorf("Payment request status is not pending: " + clientPayment.Status)
+	}
+
+	if clientPayment.Email != "gpltaylor01@gmail.com" {
+		t.Errorf("Payment request email is not correct")
+	}
+
+
+	err = DeletePendingPaymentRequest(clientPaymentResponse.RequestId)
+	if err != nil {
+		t.Errorf("Error deleting payment: " + err.Error())
+	}
+
+	clientPaymentv2, err := GetPaymentRequestByRequestId(clientPaymentResponse.RequestId)
+	if err != nil {
+		t.Errorf("Unable to return the delete payment request")
+	}
+
+	if clientPaymentv2.Status != "Deleted" {
+		t.Errorf("Payment request status is not deleted: " + clientPaymentv2.Status)
+	}
+
+}
+
+
+
+
+

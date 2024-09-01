@@ -7,7 +7,8 @@ import (
 )
 
 var (
-	data repository.AddClientPaymentRequestData
+	data repository.AddClientPaymentRequestData;
+	requestId string
 )
 
 func NewCmdSubAddClientPaymentRequest() *cobra.Command {

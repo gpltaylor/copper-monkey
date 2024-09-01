@@ -1,3 +1,4 @@
+
 package green
 
 import (
@@ -6,24 +7,25 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewCmdSubGetClientPaymentRequest() *cobra.Command {
+
+func NewCmdSubDeleteClientPaymentRequest() *cobra.Command {
 
 	cmd := &cobra.Command{
-		Use:     "getclientpaymentrequest",
-		Short:   "Get a payment request using the RequestId",
-		Aliases: []string{"gcpr"},
+		Use:     "deleteclientpaymentrequest",
+		Short:   "Delete a payment request using the RequestId",
+		Aliases: []string{"dcpr"},
 		//		Args:    cobra.ExactArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Printf("Getting client payment request:")
+			fmt.Printf("Deleting client payment request:")
 			requestId := cmd.Flag("RequestID").Value.String()
 
-			clientPaymentRequest, err := repository.GetPaymentRequestByRequestId(requestId)
+			err := repository.DeletePendingPaymentRequest(requestId)
 
 			if err != nil {
-				fmt.Println("Error getting payment request")
+				fmt.Println("Error deleting payment request")
 				panic(err)
 			}
-			fmt.Println(clientPaymentRequest)
+			fmt.Println("Payment request sucessfully deleted")
 		},
 	}
 
